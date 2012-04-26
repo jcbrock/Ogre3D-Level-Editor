@@ -1,0 +1,10 @@
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditorTests\bin\Debug\LevelEditorTests.dll
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditorTests\bin\Debug\LevelEditorTests.pdb
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditorTests\bin\Debug\Moq.dll
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditorTests\bin\Debug\nunit.framework.dll
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditorTests\bin\Debug\Moq.pdb
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditorTests\bin\Debug\Moq.xml
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditorTests\bin\Debug\nunit.framework.xml
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditorTests\obj\Debug\LevelEditorTests.csprojResolveAssemblyReference.cache
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditorTests\obj\Debug\LevelEditorTests.dll
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditorTests\obj\Debug\LevelEditorTests.pdb

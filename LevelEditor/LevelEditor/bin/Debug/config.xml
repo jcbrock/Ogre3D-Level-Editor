@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<configuration>
+  <tabs>
+    <tab>
+      <name>Downloaded</name>
+      <mapped>True</mapped>
+      <mappedServerFolder>ftp://www.jeffandlainawedding.com/jeffandlainawedding.com/wwwroot/GameAssets/</mappedServerFolder>
+      <preserveFolderHeirarchy>true</preserveFolderHeirarchy>
+      <localRootFolder>C:\Users\G521214\Desktop\TestingMap</localRootFolder>
+      <searchSubfolders>true</searchSubfolders>
+      <searchPaths>
+        <searchPath>C:\Projects\AssetManager\AssetManager\bin\Debug</searchPath>
+      </searchPaths>
+      <extensions>
+        <extension>.mesh</extension>
+        <extension>.material</extension>
+      </extensions>
+    </tab>
+  </tabs>
+</configuration>

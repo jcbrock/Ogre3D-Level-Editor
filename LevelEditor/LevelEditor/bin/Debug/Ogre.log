@@ -1,0 +1,176 @@
+13:13:46: Creating resource group General
+13:13:46: Creating resource group Internal
+13:13:46: Creating resource group Autodetect
+13:13:46: SceneManagerFactory for type 'DefaultSceneManager' registered.
+13:13:46: Registering ResourceManager for type Material
+13:13:46: Registering ResourceManager for type Mesh
+13:13:46: Registering ResourceManager for type Skeleton
+13:13:46: MovableObjectFactory for type 'ParticleSystem' registered.
+13:13:46: OverlayElementFactory for type Panel registered.
+13:13:46: OverlayElementFactory for type BorderPanel registered.
+13:13:46: OverlayElementFactory for type TextArea registered.
+13:13:46: Registering ResourceManager for type Font
+13:13:46: ArchiveFactory for archive type FileSystem registered.
+13:13:46: ArchiveFactory for archive type Zip registered.
+13:13:46: DDS codec registering
+13:13:46: FreeImage version: 3.13.1
+13:13:46: This program uses FreeImage, a free, open source image library supporting all common bitmap formats. See http://freeimage.sourceforge.net for details
+13:13:46: Supported formats: bmp,ico,jpg,jif,jpeg,jpe,jng,koa,iff,lbm,mng,pbm,pbm,pcd,pcx,pgm,pgm,png,ppm,ppm,ras,tga,targa,tif,tiff,wap,wbmp,wbm,psd,cut,xbm,xpm,gif,hdr,g3,sgi,exr,j2k,j2c,jp2,pfm,pct,pict,pic,bay,bmq,cr2,crw,cs1,dc2,dcr,dng,erf,fff,hdr,k25,kdc,mdc,mos,mrw,nef,orf,pef,pxn,raf,raw,rdc,sr2,srf,arw,3fr,cine,ia,kc2,mef,nrw,qtk,rw2,sti,drf,dsc,ptx,cap,iiq,rwz
+13:13:46: PVRTC codec registering
+13:13:46: Registering ResourceManager for type HighLevelGpuProgram
+13:13:46: Registering ResourceManager for type Compositor
+13:13:46: MovableObjectFactory for type 'Entity' registered.
+13:13:46: MovableObjectFactory for type 'Light' registered.
+13:13:46: MovableObjectFactory for type 'BillboardSet' registered.
+13:13:46: MovableObjectFactory for type 'ManualObject' registered.
+13:13:46: MovableObjectFactory for type 'BillboardChain' registered.
+13:13:46: MovableObjectFactory for type 'RibbonTrail' registered.
+13:13:46: Loading library .\RenderSystem_Direct3D9
+13:13:46: Installing plugin: D3D9 RenderSystem
+13:13:46: D3D9 : Direct3D9 Rendering Subsystem created.
+13:13:46: D3D9: Driver Detection Starts
+13:13:46: D3D9: Driver Detection Ends
+13:13:46: Plugin successfully installed
+13:13:46: Loading library .\RenderSystem_GL
+13:13:46: Installing plugin: GL RenderSystem
+13:13:46: OpenGL Rendering Subsystem created.
+13:13:47: Plugin successfully installed
+13:13:47: Loading library .\Plugin_OctreeSceneManager
+13:13:47: Installing plugin: Octree & Terrain Scene Manager
+13:13:47: Plugin successfully installed
+13:13:47: Loading library .\Plugin_CgProgramManager
+13:13:47: Installing plugin: Cg Program Manager
+13:13:47: Plugin successfully installed
+13:13:47: *-*-* OGRE Initialising
+13:13:47: *-*-* Version 1.7.1 (Cthugha)
+13:13:47: D3D9 : RenderSystem Option: Full Screen = No
+13:13:47: D3D9 : RenderSystem Option: Video Mode = 800 x 600 @ 32-bit colour
+13:13:47: CPU Identifier & Features
+13:13:47: -------------------------
+13:13:47:  *   CPU ID: GenuineIntel: Intel(R) Core(TM) i7 CPU       Q 820  @ 1.73GHz
+13:13:47:  *      SSE: yes
+13:13:47:  *     SSE2: yes
+13:13:47:  *     SSE3: yes
+13:13:47:  *      MMX: yes
+13:13:47:  *   MMXEXT: yes
+13:13:47:  *    3DNOW: no
+13:13:47:  * 3DNOWEXT: no
+13:13:47:  *     CMOV: yes
+13:13:47:  *      TSC: yes
+13:13:47:  *      FPU: yes
+13:13:47:  *      PRO: yes
+13:13:47:  *       HT: no
+13:13:47: -------------------------
+13:13:47: D3D9 : Subsystem Initialising
+13:13:47: Registering ResourceManager for type Texture
+13:13:47: Registering ResourceManager for type GpuProgram
+13:13:47: ***************************************
+13:13:47: *** D3D9 : Subsystem Initialised OK ***
+13:13:47: ***************************************
+13:13:47: D3D9RenderSystem::_createRenderWindow "Main RenderWindow", 800x600 windowed  miscParams: FSAA=4 externalWindowHandle=68742 
+13:13:47: D3D9 : Created D3D9 Rendering Window 'Main RenderWindow' : 200x100, 32bpp
+13:13:47: D3D9 : WARNING - disabling VSync in windowed mode can cause timing issues at lower frame rates, turn VSync on if you observe this problem.
+13:13:47: D3D9: Vertex texture format supported - PF_FLOAT16_RGB
+13:13:47: D3D9: Vertex texture format supported - PF_FLOAT16_RGBA
+13:13:47: D3D9: Vertex texture format supported - PF_FLOAT32_RGB
+13:13:47: D3D9: Vertex texture format supported - PF_FLOAT32_RGBA
+13:13:47: D3D9: Vertex texture format supported - PF_FLOAT16_R
+13:13:47: D3D9: Vertex texture format supported - PF_FLOAT32_R
+13:13:47: D3D9: Vertex texture format supported - PF_FLOAT16_GR
+13:13:47: D3D9: Vertex texture format supported - PF_FLOAT32_GR
+13:13:47: RenderSystem capabilities
+13:13:47: -------------------------
+13:13:47: RenderSystem Name: Direct3D9 Rendering Subsystem
+13:13:47: GPU Vendor: nvidia
+13:13:47: Device Name: Monitor-1-NVIDIA Quadro FX 880M
+13:13:47: Driver Version: 8.17.12.5738
+13:13:47:  * Fixed function pipeline: yes
+13:13:47:  * Hardware generation of mipmaps: yes
+13:13:47:  * Texture blending: yes
+13:13:47:  * Anisotropic texture filtering: yes
+13:13:47:  * Dot product texture operation: yes
+13:13:47:  * Cube mapping: yes
+13:13:47:  * Hardware stencil buffer: yes
+13:13:47:    - Stencil depth: 8
+13:13:47:    - Two sided stencil support: yes
+13:13:47:    - Wrap stencil values: yes
+13:13:47:  * Hardware vertex / index buffers: yes
+13:13:47:  * Vertex programs: yes
+13:13:47:  * Number of floating-point constants for vertex programs: 256
+13:13:47:  * Number of integer constants for vertex programs: 16
+13:13:47:  * Number of boolean constants for vertex programs: 16
+13:13:47:  * Fragment programs: yes
+13:13:47:  * Number of floating-point constants for fragment programs: 224
+13:13:47:  * Number of integer constants for fragment programs: 16
+13:13:47:  * Number of boolean constants for fragment programs: 16
+13:13:47:  * Geometry programs: no
+13:13:47:  * Number of floating-point constants for geometry programs: 0
+13:13:47:  * Number of integer constants for geometry programs: 0
+13:13:47:  * Number of boolean constants for geometry programs: 0
+13:13:47:  * Supported Shader Profiles: hlsl ps_1_1 ps_1_2 ps_1_3 ps_1_4 ps_2_0 ps_2_a ps_2_b ps_2_x ps_3_0 vs_1_1 vs_2_0 vs_2_a vs_2_x vs_3_0
+13:13:47:  * Texture Compression: yes
+13:13:47:    - DXT: yes
+13:13:47:    - VTC: no
+13:13:47:    - PVRTC: no
+13:13:47:  * Scissor Rectangle: yes
+13:13:47:  * Hardware Occlusion Query: yes
+13:13:47:  * User clip planes: yes
+13:13:47:  * VET_UBYTE4 vertex element type: yes
+13:13:47:  * Infinite far plane projection: yes
+13:13:47:  * Hardware render-to-texture: yes
+13:13:47:  * Floating point textures: yes
+13:13:47:  * Non-power-of-two textures: yes
+13:13:47:  * Volume textures: yes
+13:13:47:  * Multiple Render Targets: 4
+13:13:47:    - With different bit depths: yes
+13:13:47:  * Point Sprites: yes
+13:13:47:  * Extended point parameters: yes
+13:13:47:  * Max Point Size: 10
+13:13:47:  * Vertex texture fetch: yes
+13:13:47:  * Number of world matrices: 0
+13:13:47:  * Number of texture units: 8
+13:13:47:  * Stencil buffer depth: 8
+13:13:47:  * Number of vertex blend matrices: 0
+13:13:47:    - Max vertex textures: 4
+13:13:47:    - Vertex textures shared: no
+13:13:47:  * Render to Vertex Buffer : no
+13:13:47:  * DirectX per stage constants: yes
+13:13:47: DefaultWorkQueue('Root') initialising on thread main.
+13:13:47: Particle Renderer Type 'billboard' registered
+13:13:47: SceneManagerFactory for type 'OctreeSceneManager' registered.
+13:13:47: SceneManagerFactory for type 'TerrainSceneManager' registered.
+13:13:47: Parsing scripts for resource group Autodetect
+13:13:47: Finished parsing scripts for resource group Autodetect
+13:13:47: Parsing scripts for resource group General
+13:13:47: Finished parsing scripts for resource group General
+13:13:47: Parsing scripts for resource group Internal
+13:13:47: Finished parsing scripts for resource group Internal
+13:13:47: D3D9 Device 0x[069BBD20] entered lost state
+13:13:47: D3D9 : WARNING - disabling VSync in windowed mode can cause timing issues at lower frame rates, turn VSync on if you observe this problem.
+13:13:47: !!! Direct3D Device successfully restored.
+13:13:47: D3D9 device: 0x[069BBD20] was reset
+13:22:03: DefaultWorkQueue('Root') shutting down on thread main.
+13:22:03: *-*-* OGRE Shutdown
+13:22:03: Unregistering ResourceManager for type Compositor
+13:22:03: Unregistering ResourceManager for type Font
+13:22:03: Unregistering ResourceManager for type Skeleton
+13:22:03: Unregistering ResourceManager for type Mesh
+13:22:03: Unregistering ResourceManager for type HighLevelGpuProgram
+13:22:03: Uninstalling plugin: Cg Program Manager
+13:22:03: Plugin successfully uninstalled
+13:22:03: Unloading library .\Plugin_CgProgramManager
+13:22:03: Uninstalling plugin: Octree & Terrain Scene Manager
+13:22:03: Plugin successfully uninstalled
+13:22:03: Unloading library .\Plugin_OctreeSceneManager
+13:22:03: Uninstalling plugin: GL RenderSystem
+13:22:03: *** Stopping Win32GL Subsystem ***
+13:22:03: Plugin successfully uninstalled
+13:22:03: Unloading library .\RenderSystem_GL
+13:22:03: Uninstalling plugin: D3D9 RenderSystem
+13:22:03: D3D9 : Shutting down cleanly.
+13:22:03: Unregistering ResourceManager for type Texture
+13:22:03: Unregistering ResourceManager for type GpuProgram
+13:22:03: D3D9 : Direct3D9 Rendering Subsystem destroyed.
+13:22:03: Plugin successfully uninstalled
+13:22:03: Unloading library .\RenderSystem_Direct3D9
+13:22:03: Unregistering ResourceManager for type Material

@@ -1,8 +1,126 @@
 ﻿<Window x:Class="LevelEditor.MainWindow"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="MainWindow" Height="600" Width="1200" KeyDown="Window_KeyDown" Closing="MainWindow_Closing">
+
+
+    <Grid Name="ContainerGrid">
+
+        <DockPanel LastChildFill="True" Name="MainDockPanel">
+         
+
+            <Grid DockPanel.Dock="Left"  Width="450">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label Name="SourceControlMapped" Grid.Row="0" Grid.Column="2" Visibility="Hidden">This tab is mapped to source control</Label>
+                <TreeView Name="FileTreeview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="3" SelectedItemChanged="FileTreeview_SelectedItemChanged">
+                    <TreeView.Resources>
+                        <!--<ImageBrush  x:Key="{x:Static SystemColors.HighlightBrushKey}" ImageSource="/AssetManager;component/Images/WindowsHighlight.png"  />
+                        <ImageBrush  x:Key="{x:Static SystemColors.ControlBrushKey}" ImageSource="/AssetManager;component/Images/WindowsHighlightNoFocus.png"  />-->
+                    </TreeView.Resources>
+                </TreeView>
+
+            </Grid>
+
+            <GroupBox Header="Animation" DockPanel.Dock="Bottom"  Margin="3">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Name="SkeletonFileName" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">File Name</Label>
+                    <Label Name="SkeletonParentFileName" Grid.Row="0" Grid.Column="4">(Blend Parent Name)</Label>
+                    <Label Grid.Row="1" Grid.Column="0" FontWeight="Bold" Margin="15,0,0,0" FontSize="10">Animation</Label>
+                    <Label Grid.Row="1" Grid.Column="1" FontWeight="Bold" FontSize="10">Length</Label>
+                    <Label Grid.Row="1" Grid.Column="2" FontWeight="Bold" FontSize="10" HorizontalAlignment="Center">Loop</Label>
+                
+                </Grid>
+            </GroupBox>
+
+
+
+
+
+            <GroupBox Header="Mesh" DockPanel.Dock="Bottom" Margin="3">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="0"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Name="MeshFileName" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">File Name</Label>
+                    <Label Name="MeshBlendFileName" Grid.Row="0" Grid.Column="4">(Blend Parent Name)</Label>
+                    <Label Grid.Row="1" Grid.Column="0" FontWeight="Bold" Margin="15,0,0,0" FontSize="10">SubMesh</Label>
+                    <Label Grid.Row="1" Grid.Column="1" FontWeight="Bold" FontSize="10">Material</Label>
+                    <Label Grid.Row="1" Grid.Column="3" FontWeight="Bold" FontSize="10">Material File Name</Label>
+                    <Label Grid.Row="1" Grid.Column="4" FontWeight="Bold" FontSize="10">Material Blend File Name</Label>
+                    <Label Grid.Row="1" Grid.Column="5" FontWeight="Bold" FontSize="10" HorizontalAlignment="Center">Mesh Definition</Label>
+                    <ListBox Name="MeshDefinitions" Grid.Row="2" Grid.Column="5" Margin="2" />
+                </Grid>
+            </GroupBox>
+
+            <Border BorderBrush="#FF828790" BorderThickness="1,0,0,0" DockPanel.Dock="Top">
+                <Grid x:Name="LayoutRoot" OpacityMask="Black" DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Name="SearchLabel"  Grid.Column="0" Grid.Row="0" Content="Search" />
+                    <TextBox Name="SearchText" Grid.Column="1" Grid.Row="0" KeyDown="SearchText_KeyDown" TextChanged="SearchText_TextChanged" Margin="2" />
+                    <Image Grid.Column="3" Source="C:\Users\G521214\Desktop\forward.jpg" Mouse.MouseDown="SearchForwardButton_MouseDown" Margin="0" Name="SearchForwardButton" Opacity="0.4"></Image>
+                    <Label Name="ZoomLabel"  Grid.Column="4" Grid.Row="0" Content="Zoom" HorizontalAlignment="Right" />
+                    <TextBox Name="ZoomText" Grid.Column="5" Grid.Row="0" Text="100 %" TextAlignment="Center" KeyDown="ZoomText_KeyDown"  Margin="2"/>
+                    <CheckBox Name="AutoScaling" Content="Automatic Scaling" Grid.Column="6" Grid.Row="0" IsChecked="True" Margin="2" VerticalAlignment="Center" Visibility="Hidden"/>
+                    <Button Name="DownloadFiles" Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="2" Margin="3" Width="125" Content="Get Latest Files" Click="DownloadFiles_Click"></Button>
+
+                    <!--<Image Grid.Column="6" Source="E:\Pictures\light-bulb-2.jpg" Mouse.MouseDown="Image_MouseDown" Margin="2" Name="Lightbulb"></Image>-->
+                </Grid>
+            </Border>
+
+            <!--<Border BorderBrush="Black" BorderThickness="1">-->
+            <WindowsFormsHost Name="OgreWinFormsHost">
+                <wf:Panel Name="ogreTestPanel" MouseMove="Panel_MouseMove" MouseDown="Panel_MouseDown"></wf:Panel>
+            </WindowsFormsHost>
+            <!--</Border>-->
+
+
+        </DockPanel>
     </Grid>
+
 </Window>
+
+

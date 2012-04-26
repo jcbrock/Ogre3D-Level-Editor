@@ -1,0 +1,13 @@
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\obj\x86\Debug\LevelEditor.csprojResolveAssemblyReference.cache
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\obj\x86\Debug\App.g.cs
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\obj\x86\Debug\LevelEditor_MarkupCompile.cache
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\obj\x86\Debug\MainWindow.baml
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\obj\x86\Debug\MainWindow.g.cs
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\obj\x86\Debug\LevelEditor.g.resources
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\obj\x86\Debug\LevelEditor.Properties.Resources.resources
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\obj\x86\Debug\LevelEditor.csproj.GenerateResource.Cache
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\bin\Debug\LevelEditor.exe
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\bin\Debug\LevelEditor.pdb
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\bin\Debug\Mogre.xml
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\obj\x86\Debug\LevelEditor.exe
+C:\Users\G521214\Ogre3D-Level-Editor\LevelEditor\LevelEditor\obj\x86\Debug\LevelEditor.pdb
