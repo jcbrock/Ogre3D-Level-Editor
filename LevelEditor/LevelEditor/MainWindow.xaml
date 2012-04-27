@@ -13,11 +13,9 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Label Name="SourceControlMapped" Grid.Row="0" Grid.Column="2" Visibility="Hidden">This tab is mapped to source control</Label>
-                <TreeView Name="FileTreeview" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="3" SelectedItemChanged="FileTreeview_SelectedItemChanged">
+                <TreeView Name="FileTreeview" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="3" SelectedItemChanged="FileTreeview_SelectedItemChanged">
                     <TreeView.Resources>
                         <!--<ImageBrush  x:Key="{x:Static SystemColors.HighlightBrushKey}" ImageSource="/AssetManager;component/Images/WindowsHighlight.png"  />
                         <ImageBrush  x:Key="{x:Static SystemColors.ControlBrushKey}" ImageSource="/AssetManager;component/Images/WindowsHighlightNoFocus.png"  />-->
@@ -44,10 +42,10 @@
                     <Label Name="SearchLabel"  Grid.Column="0" Grid.Row="0" Content="Search" />
                     <TextBox Name="SearchText" Grid.Column="1" Grid.Row="0" KeyDown="SearchText_KeyDown" TextChanged="SearchText_TextChanged" Margin="2" />
                     <Image Grid.Column="3" Source="C:\Users\G521214\Desktop\forward.jpg" Mouse.MouseDown="SearchForwardButton_MouseDown" Margin="0" Name="SearchForwardButton" Opacity="0.4"></Image>
-                    <Label Name="ZoomLabel"  Grid.Column="4" Grid.Row="0" Content="Zoom" HorizontalAlignment="Right" />
-                    <TextBox Name="ZoomText" Grid.Column="5" Grid.Row="0" Text="100 %" TextAlignment="Center" KeyDown="ZoomText_KeyDown"  Margin="2"/>
+                    <Label Name="ScaleLabel"  Grid.Column="4" Grid.Row="0" Content="Scale" HorizontalAlignment="Right" />
+                    <TextBox Name="ScaleText" Grid.Column="5" Grid.Row="0" Text="20 %" TextAlignment="Center" KeyDown="ScaleText_KeyDown"  Margin="2"/>
                     <CheckBox Name="AutoScaling" Content="Automatic Scaling" Grid.Column="6" Grid.Row="0" IsChecked="True" Margin="2" VerticalAlignment="Center" Visibility="Hidden"/>
-                    <Button Name="DownloadFiles" Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="2" Margin="3" Width="125" Content="Get Latest Files" Click="DownloadFiles_Click"></Button>
+                    <Button Name="DownloadFiles" Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="2" Margin="3" Width="125" Content="Get Latest Files" Click="DownloadFiles_Click" Visibility="Hidden"></Button>
                    </Grid>
             </Border>
             

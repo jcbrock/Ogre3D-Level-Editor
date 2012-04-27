@@ -26,6 +26,8 @@ namespace LevelEditor.Classes
         SceneNode cameraPitchNode;
         SceneNode cameraRollNode;
 
+        Vector3 scale = new Vector3((float).2, (float).2, (float).2);
+
         public OgreForm(List<string> ConfigurationPaths)
         {
             _ConfigurationPaths = ConfigurationPaths;
@@ -103,15 +105,9 @@ namespace LevelEditor.Classes
 
             try
             {
-                //mAnimationState.HasEnded
-                //SceneNode foo = mMgr.GetSceneNode(currentEntity + "node");
-                //foo.ResetToInitialState();
-
-                //  mAnimationState = null;
                 if (mAnimationState != null)
                     mAnimationState.Enabled = false; //set the old animation to not be enabled
 
-                //ent.GetAnimationState("Die").Enabled = false;
                 mAnimationState = ent.GetAnimationState(animation); //if the animation file isn't found, then it throws an exception
 
                 mAnimationState.TimePosition = 0;
@@ -222,14 +218,9 @@ namespace LevelEditor.Classes
             mCamera.AspectRatio = (float)((double)width / (double)height);
         }
 
-        public void Scale(float x, float y, float z, string currentEntity)
+        public void Scale(float x, float y, float z)
         {
-            if (string.IsNullOrWhiteSpace(currentEntity))
-                return;
-
-            SceneNode node = mMgr.GetSceneNode(currentEntity + "node");
-            Vector3 vec3 = node.GetScale();
-            node.SetScale(x, y, z);
+            scale = new Vector3(x, y, z);
         }
 
         public void Rotate(float x, float y, float z, string currentEntity)
@@ -255,15 +246,10 @@ namespace LevelEditor.Classes
             mRoot = null;
         }
 
-        public void foo()
+        public void RenderEnvironment()
         {
             mMgr.SetWorldGeometry("terrain.cfg");
-            try
-            {
-                mMgr.SetSkyDome(true, "Examples/CloudySky", 2, 20);
-            }
-            catch
-            { }
+            mMgr.SetSkyDome(true, "Examples/CloudySky", 2, 6);
         }
 
         public void Tick(Object stateInfo)
@@ -277,7 +263,7 @@ namespace LevelEditor.Classes
 
         public bool Tick(int diffX, int diffY, string startX, string startY, int searchCounter)
         {
-           
+
             if (mRoot != null && IsInitialized == true)
             {
                 renderScene();
@@ -288,7 +274,7 @@ namespace LevelEditor.Classes
                     if (mAnimationState.HasEnded)
                         return false;
                 }
-               
+
                 // Setup the scene query
                 Vector3 camPos = mCamera.RealPosition;
                 Ray cameraRay = new Ray(new Vector3(camPos.x, 5000.0f, camPos.z),
@@ -410,7 +396,7 @@ namespace LevelEditor.Classes
         //    mCamera.LookAt(0, 0, z);
         //}
 
-        
+
         //Needs to assign a member variable so it gets rotated every frame
         //since key buttons don't have a "keyPressed" event
         public void rotateLeft(int a)
@@ -428,7 +414,7 @@ namespace LevelEditor.Classes
             // Rotate camera left.
             cameraPitchNode.Pitch((float)(a * System.Math.PI * .5) / 180);
         }
-      
+
         Vector3 transVect = new Vector3(0, 0, 0);
         public void move(int v)
         {
@@ -439,39 +425,45 @@ namespace LevelEditor.Classes
         protected bool mLMouseDown, mRMouseDown = false;    // True if the mouse buttons are down
         protected int mCount = 0;                           // The number of robots on the screen
         protected SceneNode mCurrentObject = null;          // The newly created object
- 
-      //  protected OgreCEGUIRenderer mGUIRenderer = null;    //CEGUI Renderer
+
+        //  protected OgreCEGUIRenderer mGUIRenderer = null;    //CEGUI Renderer
         //protected GuiSystem mGUISystem = null;              //GUISystem
         protected float mouseX, mouseY;
-        public void LeftClicked(float x, float y)
+        public void LeftClicked(float x, float y, string currentEntity)
         {
-          // Save mouse position
-                mouseX = x; mouseY = y;
+            // Save mouse position
+            mouseX = x; mouseY = y;
 
-                // Setup the ray scene query
-                Ray mouseRay = mCamera.GetCameraToViewportRay(mouseX, mouseY);
-            
-                Ray newRay = new Ray(new Vector3(mouseRay.Origin.x, System.Math.Abs(mouseRay.Origin.y), mouseRay.Origin.z), mouseRay.Direction);
-                mRaySceneQuery.Ray = newRay;
+            // Setup the ray scene query
+            Ray mouseRay = mCamera.GetCameraToViewportRay(mouseX, mouseY);
 
-                // Execute query
-                RaySceneQueryResult result = mRaySceneQuery.Execute();
-                RaySceneQueryResult.Enumerator itr = (RaySceneQueryResult.Enumerator)result.GetEnumerator();
+            Ray newRay = new Ray(new Vector3(mouseRay.Origin.x, System.Math.Abs(mouseRay.Origin.y), mouseRay.Origin.z), mouseRay.Direction);
+            mRaySceneQuery.Ray = newRay;
 
-                // Get results, create a node/entity on the position
-                if (itr != null && itr.MoveNext())
+            // Execute query
+            RaySceneQueryResult result = mRaySceneQuery.Execute();
+            RaySceneQueryResult.Enumerator itr = (RaySceneQueryResult.Enumerator)result.GetEnumerator();
+
+            // Get results, create a node/entity on the position
+            if (itr != null && itr.MoveNext())
+            {
+                if (string.IsNullOrWhiteSpace(currentEntity))
+                    return;
+
+                if (itr.Current != null && itr.Current.worldFragment != null)
                 {
-                    Entity ent = mMgr.CreateEntity("Robot" + mCount.ToString(), "robot.mesh");
-                    mCurrentObject = mMgr.RootSceneNode.CreateChildSceneNode("RobotNode" + mCount.ToString(),
+                    Entity ent = mMgr.CreateEntity(currentEntity + mCount.ToString(), currentEntity);
+                    mCurrentObject = mMgr.RootSceneNode.CreateChildSceneNode(currentEntity + "Node" + mCount.ToString(),
                         itr.Current.worldFragment.singleIntersection);
                     mCount++;
                     mCurrentObject.AttachObject(ent);
-                    mCurrentObject.SetScale(0.2f, 0.2f, 0.2f);
-                } // 
+                    mCurrentObject.SetScale(scale);
+                }
+            } // 
 
-                mLMouseDown = true;
-                return;
-            }
+            mLMouseDown = true;
+            return;
+        }
 
         public void foobar()
         {
@@ -608,8 +600,6 @@ namespace LevelEditor.Classes
 
                 IsInitialized = true;
 
-
-
                 // Create the camera's top node (which will only handle position).
                 cameraNode = mMgr.RootSceneNode.CreateChildSceneNode();
                 cameraNode.Position = new Vector3(0, 0, 0);
@@ -634,43 +624,6 @@ namespace LevelEditor.Classes
             {
                 Console.WriteLine("[Error,OgreForm.cs]: " + ex.Message + "," + ex.StackTrace);
             }
-        }
-
-        //void CreateSimpleScene(string displayItem)
-        //{
-        //    // Create a Simple Scene
-        //    SceneNode node = null;
-        //    mMgr = mRoot.CreateSceneManager(SceneType.ST_GENERIC, "SceneManager");
-        //    mMgr.AmbientLight = new ColourValue(0.8f, 0.8f, 0.8f);
-
-        //    mCamera = mMgr.CreateCamera("Camera");
-        //    mWindow.AddViewport(mCamera);
-
-
-        //    mCamera.AutoAspectRatio = true;
-        //    mCamera.Viewport.SetClearEveryFrame(false);
-
-        //    //what is displayed in the treeview must match what is in resources.cfg
-
-        //    //  mMgr.CreateEntity(
-        //    Entity ent = mMgr.CreateEntity("knot", displayItem);
-        //    // Entity ent = mMgr.CreateEntity("level", "knot.mesh");
-
-        //    ent.SetMaterialName("Examples/DarkMaterial");
-        //    node = mMgr.RootSceneNode.CreateChildSceneNode("knotnode");
-        //    node.AttachObject(ent);
-
-        //    mCamera.Position = new Vector3(0, 200, -400);
-        //    mCamera.LookAt(ent.BoundingBox.Center);
-
-        //    //Create a single point light source
-        //    Light light2 = mMgr.CreateLight("MainLight");
-        //    light2.Position = new Vector3(0, 10, -25);
-        //    light2.Type = Light.LightTypes.LT_POINT;
-        //    light2.SetDiffuseColour(1.0f, 1.0f, 1.0f);
-        //    light2.SetSpecularColour(0.1f, 0.1f, 0.1f);
-
-        //    mWindow.WindowMovedOrResized();
-        //}
+        }      
     }
 }

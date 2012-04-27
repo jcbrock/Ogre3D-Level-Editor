@@ -29,28 +29,14 @@ namespace LevelEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-
         //constants
         //naming convention: http://stackoverflow.com/questions/242534/c-sharp-naming-convention-for-constants
-        private const string DefaultTabHeaderText = "Default";
-        private const string NewTabHeaderText = "*";
-        private const string NewTabHeaderValue = "NewTab";
-        private const string MeshFileExtension = ".mesh";
-        private const string MeshXMLFileExtension = ".mesh.xml";
-        private const string MaterialFileExtension = ".material";
-        private const string SceneFileExtension = ".scene";
-        private const string BlenderFileExtension = ".blend";
-        private const string AnimationQueueDelimiter = " -- ";
-        private const string AnimationQueueLoopSuffix = " -- Loop";
-
-
+         private const string MeshFileExtension = ".mesh";
+     
         //Member Variables
         OgreForm _ogre;
-        //ObservableCollection<RenderedObject> _fields { get; set; }
         List<string> _fileSystemPaths = new List<string>();
-        List<KeyValuePair<int, string>> _currentMaterials = new List<KeyValuePair<int, string>>(); //Mapping of SubMesh index to Material Name // = "Examples/DarkMaterial";
         string _currentEntity = string.Empty; // = "knot.mesh";
-        string _currentAnimation = string.Empty;
         float _currentZoom = (float)1.0;
         System.Drawing.Point _startPoint = new System.Drawing.Point();
         int diffX, diffY, startX, startY;
@@ -65,9 +51,8 @@ namespace LevelEditor
             InitializeComponent();
             GenerateTreeViewAndResourceConfigurationPaths("..\\..\\EditorData", true);
             InitializeOgre();
-               _ogre.foo();
+               _ogre.RenderEnvironment();
             SetupEventTimer();
-
         }
 
         #region SETUP CALLS
@@ -115,7 +100,6 @@ namespace LevelEditor
         /// </summary>
         void GenerateTreeViewAndResourceConfigurationPaths(string rootFolderPath, bool searchSubfolders)
         {
-
             FileTreeview.Items.Add(OpenFolder(rootFolderPath, null, searchSubfolders));
         }
 
@@ -168,45 +152,12 @@ namespace LevelEditor
             TreeViewItem fileItem = new TreeViewItem();
             fileItem.Header = file.Substring(file.LastIndexOf("\\") + 1);
 
-            string parentFileName = "";
-            string parentFilePath = "";
-            //  OgreFileType fileType = OgreFileType.Unknown;
-            //todo
             if (fileItem.Header.ToString().EndsWith(MeshFileExtension))
             {
-                //  fileType = OgreFileType.Mesh;
-                //int meshCount = 1;
                 List<string> subMeshes = new List<string>();
                 List<string> defaultMaterials = new List<string>();
                 List<string> meshDefinitions = new List<string>();
             }
-            else if (fileItem.Header.ToString().EndsWith(MaterialFileExtension))
-            {
-                // fileType = OgreFileType.Material;
-
-                //Try to read the Parent Path / Filename out of the .material file. It should be the first line.
-                try
-                {
-                    // create reader & open file
-                    TextReader tr = new StreamReader(file);
-
-                    string line = tr.ReadLine();
-                    if (line.IndexOf('=') > -1)
-                    {
-                        parentFilePath = line.Substring(line.IndexOf('=') + 2);
-                        parentFileName = parentFilePath.Substring(parentFilePath.LastIndexOf("\\") + 1);
-                    }
-                    // close the stream
-                    tr.Close();
-                }
-                //todo - do I want to make this more specific?
-                catch (Exception ex)
-                {
-                    //There was an error while parsing this tab - log and continue
-                }
-
-            }
-
             return fileItem;
            }
         #endregion
@@ -223,15 +174,15 @@ namespace LevelEditor
 
             if (e.Button == MouseButtons.Right)
             {
+                //Make sure there isn't a big jump, like when the cursor exits/enters panel
                 if (Math.Abs(diffY) < 100)
                     _ogre.rotateUp(-diffY);
             }
         }
         private void Panel_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            
+        {            
             if (e.Button == MouseButtons.Left)
-                _ogre.LeftClicked((float)(e.X / OgreWinFormsHost.ActualWidth),(float)( e.Y / OgreWinFormsHost.ActualHeight));
+                _ogre.LeftClicked((float)(e.X / OgreWinFormsHost.ActualWidth),(float)( e.Y / OgreWinFormsHost.ActualHeight), _currentEntity);
 
             _startPoint = e.Location;
             startX = _startPoint.X;
@@ -264,9 +215,7 @@ namespace LevelEditor
         private void ChangeMesh(TreeViewItem selectedItem)
         {
             _currentEntity = selectedItem.Header.ToString();
-            //if (_ogre != null && !string.IsNullOrWhiteSpace(_currentEntity))
-           //     _ogre.Go(_currentEntity, _currentMaterials, _currentZoom, AutoScaling.IsChecked, OgreWinFormsHost.ActualHeight, OgreWinFormsHost.ActualWidth);
-        }
+         }
         #endregion
 
         /// <summary>
@@ -331,19 +280,19 @@ namespace LevelEditor
         /// Applies the scale of the object in the scene based on the delta and what is in the Zoom textbox.
         /// </summary>
         /// <param name="deltaZoom"></param>
-        private void ApplyZoom(int deltaZoom)
+        private void ApplyScale(int deltaZoom)
         {
-            //int zoomPercentage;
-            //int.TryParse(ZoomText.Text.Replace('%', ' '), out zoomPercentage);
-            //zoomPercentage += deltaZoom;
-            //_currentZoom = (float)zoomPercentage / 100;
-            //_ogre.Scale(_currentZoom, _currentZoom, _currentZoom, _currentEntity);
-            //ZoomText.Text = zoomPercentage.ToString() + " %";
+            int scalePercentage;
+            int.TryParse(ScaleText.Text.Replace('%', ' '), out scalePercentage);
+            scalePercentage += deltaZoom;
+            _currentZoom = (float)scalePercentage / 100;
+            _ogre.Scale(_currentZoom, _currentZoom, _currentZoom);
+            ScaleText.Text = scalePercentage.ToString() + " %";
         }
-        private void ZoomText_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void ScaleText_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            //if (e.Key == Key.Enter)            
-            //    ApplyZoom(0);
+            if (e.Key == Key.Enter)            
+                ApplyScale(0);
         }
 
 
@@ -352,9 +301,9 @@ namespace LevelEditor
             if (!SearchText.IsKeyboardFocusWithin)
             {
                 if (e.Key == Key.O)
-                    ApplyZoom(-10);
+                    ApplyScale(-10);
                 else if (e.Key == Key.P)
-                    ApplyZoom(10);
+                    ApplyScale(10);
                 else if (e.Key == Key.D)
                     _ogre.rotateRight(10);
                 else if (e.Key == Key.W)
@@ -479,27 +428,7 @@ namespace LevelEditor
 
         private void DownloadFiles_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Machine Name := " + Environment.MachineName);
-
-            //this works:
-            // DownloadProgress popup = new DownloadProgress("");
-            // popup.ShowDialog();
-
-
-
-            //credit for this code goes to:http://www.c-sharpcorner.com/uploadfile/kirtan007/how-to-download-file-and-showing-its-progress-in-progress-bar/
-            //System.Net.WebClient wc = new System.Net.WebClient();
-            //wc.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wc_DownloadProgressChanged);
-            //wc.DownloadFileAsync(new Uri("http://www.jeffandlainawedding.com/GameAssets/ogrehead.mesh"), System.AppDomain.CurrentDomain.BaseDirectory + "\\ogrehead.mesh", null);
-
-            //var request = System.Net.WebRequest.Create("http://www.jeffandlainawedding.com/GameAssets/ogrehead.mesh");
-            //using (var stream = request.GetResponse().GetResponseStream())
-            //{
-            //    using (var reader = new StreamReader(stream))
-            //    {
-            //        var fileContent = reader.ReadToEnd();
-            //    }
-            //}
+            //debugging button click
         }
 
         private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
@@ -516,10 +445,5 @@ namespace LevelEditor
                     _ogre.rotateLeft(0);
             }
         }
-
-
-
     }
-
-
 }
