@@ -12,12 +12,19 @@ namespace LevelEditor.Classes
         RenderWindow mWindow;
         RenderSystem mRSys;
         AnimationState mAnimationState = null;
+        int _currentRotation = 0;
 
         Camera mCamera;
         Boolean IsInitialized { get; set; }
         SceneManager mMgr { get; set; }
 
         List<string> _ConfigurationPaths;
+
+
+        SceneNode cameraNode;
+        SceneNode cameraYawNode;
+        SceneNode cameraPitchNode;
+        SceneNode cameraRollNode;
 
         public OgreForm(List<string> ConfigurationPaths)
         {
@@ -248,6 +255,17 @@ namespace LevelEditor.Classes
             mRoot = null;
         }
 
+        public void foo()
+        {
+            mMgr.SetWorldGeometry("terrain.cfg");
+            try
+            {
+                mMgr.SetSkyDome(true, "Examples/CloudySky", 2, 20);
+            }
+            catch
+            { }
+        }
+
         public void Tick(Object stateInfo)
         {
             if (mRoot != null && IsInitialized == true)
@@ -257,17 +275,45 @@ namespace LevelEditor.Classes
             }
         }
 
-        public bool Tick(string diffX, string diffY, string startX, string startY, int searchCounter)
+        public bool Tick(int diffX, int diffY, string startX, string startY, int searchCounter)
         {
+           
             if (mRoot != null && IsInitialized == true)
             {
                 renderScene();
-
+                foobar();
                 if (mAnimationState != null)
                 {
                     mAnimationState.AddTime(((float).01)); //todo - might not render last frame
                     if (mAnimationState.HasEnded)
                         return false;
+                }
+               
+                // Setup the scene query
+                Vector3 camPos = mCamera.RealPosition;
+                Ray cameraRay = new Ray(new Vector3(camPos.x, 5000.0f, camPos.z),
+                    Vector3.NEGATIVE_UNIT_Y);
+                mRaySceneQuery.Ray = cameraRay;
+
+                // Perform the scene query;
+                RaySceneQueryResult result = mRaySceneQuery.Execute();
+                RaySceneQueryResult.Enumerator itr = (RaySceneQueryResult.Enumerator)result.GetEnumerator();
+
+                // Get the results, set the camera height
+                if ((itr != null) && itr.MoveNext())
+                {
+                    if (itr.Current != null && itr.Current.worldFragment != null)
+                    {
+                        float terrainHeight = itr.Current.worldFragment.singleIntersection.y;
+
+                        if ((terrainHeight + 120.0f) > camPos.y)
+                        {// mCamera.SetPosition(camPos.x, terrainHeight + 150.0f, camPos.z);
+                            cameraNode.Translate(cameraYawNode.Orientation *
+                                                                  cameraPitchNode.Orientation *
+                                                                  new Vector3(0, 10, 0),
+                                                                  SceneNode.TransformSpace.TS_LOCAL);
+                        }
+                    }
                 }
 
                 mRoot.RenderOneFrame();
@@ -296,33 +342,177 @@ namespace LevelEditor.Classes
 
         public void LoadResourceLocations(List<string> configurationPaths)
         {
-            /*
-            Console.WriteLine("NEW LOAD:");
-           var foob = ResourceGroupManager.Singleton.ListResourceLocations("General");
-           var bar = ResourceGroupManager.Singleton.ListResourceNames("General", true);
-           var foop = ResourceGroupManager.Singleton.ListResourceNames("General", false);
 
-            //ResourceGroupManager.Singleton.ClearResourceGroup("General");
+            // Console.WriteLine("NEW LOAD:");
+            //var foob = ResourceGroupManager.Singleton.ListResourceLocations("General");
+            //var bar = ResourceGroupManager.Singleton.ListResourceNames("General", true);
+            //var foop = ResourceGroupManager.Singleton.ListResourceNames("General", false);
 
-           foreach (string foobar in foob)
-           {
-               ResourceGroupManager.Singleton.RemoveResourceLocation(foobar);
-           }
+            // //ResourceGroupManager.Singleton.ClearResourceGroup("General");
 
-            var foob2 = ResourceGroupManager.Singleton.ListResourceLocations("General");
-            var bar2 = ResourceGroupManager.Singleton.ListResourceNames("General", true);
-            var foop2 = ResourceGroupManager.Singleton.ListResourceNames("General", false);
+            //foreach (string foobar in foob)
+            //{
+            //    ResourceGroupManager.Singleton.RemoveResourceLocation(foobar);
+            //}
+
+            // var foob2 = ResourceGroupManager.Singleton.ListResourceLocations("General");
+            // var bar2 = ResourceGroupManager.Singleton.ListResourceNames("General", true);
+            // var foop2 = ResourceGroupManager.Singleton.ListResourceNames("General", false);
 
             //example of manual add: _FileSystemPaths.Add("../../Media/models");
             foreach (string foo in configurationPaths)
             {
                 AddResourceLocation(foo);
             }
-            Console.WriteLine("DONE LOAD:");
-            var foob3 = ResourceGroupManager.Singleton.ListResourceLocations("General");
-            var bar3 = ResourceGroupManager.Singleton.ListResourceNames("General", true);
-            var foop3 = ResourceGroupManager.Singleton.ListResourceNames("General", false);
-              */
+            //Console.WriteLine("DONE LOAD:");
+            //var foob3 = ResourceGroupManager.Singleton.ListResourceLocations("General");
+            //var bar3 = ResourceGroupManager.Singleton.ListResourceNames("General", true);
+            //var foop3 = ResourceGroupManager.Singleton.ListResourceNames("General", false);
+
+        }
+
+        //public void MoveCameraX(int x)
+        //{
+        //    mCamera.Position = new Vector3(mCamera.Position.x + x, mCamera.Position.y, mCamera.Position.z);
+        //}
+        //public void MoveCameraY(int y)
+        //{
+        //    mCamera.Position = new Vector3(mCamera.Position.x, mCamera.Position.y + y, mCamera.Position.z);
+        //}
+        //public void MoveCameraZ(int z)
+        //{
+        //    mCamera.Position = new Vector3(mCamera.Position.x, mCamera.Position.y, mCamera.Position.z + z);
+        //}
+        //public void RotateCameraX(int x)
+        //{
+        //    mCamera.Rotate(new Vector3(0, -1, 0), ((float)(x * System.Math.PI) / 180));
+        //}
+        //public void RotateCameraY(int y)
+        //{
+        //    //mCamera.Rotate(new Vector3(1, 0, 0), ((float)(y * System.Math.PI) / 180));
+        //    mCamera.Rotate(new Vector3(1, 0, 0), ((float)(y * System.Math.PI) / 180)); //if looking right down z
+        //    mCamera.Rotate(new Vector3(1, 0, 0), ((float)(y * System.Math.PI) / 180)); //if looking right down x
+        //}
+        //public void RotateCameraZ(int z)
+        //{
+        //    mCamera.Rotate(new Vector3(0, 0, 1), ((float)(z * System.Math.PI) / 180));
+        //}
+        //public void LookAtX(int x)
+        //{
+        //    mCamera.LookAt(x, 0, 0);
+        //}
+        //public void LookAtY(int y)
+        //{
+        //    mCamera.LookAt(0, y, 0);
+        //}
+        //public void LookAtZ(int z)
+        //{
+        //    mCamera.LookAt(0, 0, z);
+        //}
+
+        
+        //Needs to assign a member variable so it gets rotated every frame
+        //since key buttons don't have a "keyPressed" event
+        public void rotateLeft(int a)
+        {
+            _currentRotation = a;
+        }
+
+        public void rotateRight(int a)
+        {
+            _currentRotation = -a;
+        }
+
+        public void rotateUp(int a)
+        {
+            // Rotate camera left.
+            cameraPitchNode.Pitch((float)(a * System.Math.PI * .5) / 180);
+        }
+      
+        Vector3 transVect = new Vector3(0, 0, 0);
+        public void move(int v)
+        {
+            transVect.z = v;
+        }
+
+        protected RaySceneQuery mRaySceneQuery = null;      // The ray scene query pointer
+        protected bool mLMouseDown, mRMouseDown = false;    // True if the mouse buttons are down
+        protected int mCount = 0;                           // The number of robots on the screen
+        protected SceneNode mCurrentObject = null;          // The newly created object
+ 
+      //  protected OgreCEGUIRenderer mGUIRenderer = null;    //CEGUI Renderer
+        //protected GuiSystem mGUISystem = null;              //GUISystem
+        protected float mouseX, mouseY;
+        public void LeftClicked(float x, float y)
+        {
+          // Save mouse position
+                mouseX = x; mouseY = y;
+
+                // Setup the ray scene query
+                Ray mouseRay = mCamera.GetCameraToViewportRay(mouseX, mouseY);
+            
+                Ray newRay = new Ray(new Vector3(mouseRay.Origin.x, System.Math.Abs(mouseRay.Origin.y), mouseRay.Origin.z), mouseRay.Direction);
+                mRaySceneQuery.Ray = newRay;
+
+                // Execute query
+                RaySceneQueryResult result = mRaySceneQuery.Execute();
+                RaySceneQueryResult.Enumerator itr = (RaySceneQueryResult.Enumerator)result.GetEnumerator();
+
+                // Get results, create a node/entity on the position
+                if (itr != null && itr.MoveNext())
+                {
+                    Entity ent = mMgr.CreateEntity("Robot" + mCount.ToString(), "robot.mesh");
+                    mCurrentObject = mMgr.RootSceneNode.CreateChildSceneNode("RobotNode" + mCount.ToString(),
+                        itr.Current.worldFragment.singleIntersection);
+                    mCount++;
+                    mCurrentObject.AttachObject(ent);
+                    mCurrentObject.SetScale(0.2f, 0.2f, 0.2f);
+                } // 
+
+                mLMouseDown = true;
+                return;
+            }
+
+        public void foobar()
+        {
+            float pitchAngle;
+            float pitchAngleSign;
+
+            // Yaws the camera according to the mouse relative movement.
+            cameraYawNode.Yaw((float)(_currentRotation * System.Math.PI * .1) / 180);
+
+            // Pitches the camera according to the mouse relative movement.
+            //cameraPitchNode.Pitch((float)(y * System.Math.PI) / 180);
+
+            // Translates the camera according to the translate vector which is
+            // controlled by the keyboard arrows.
+            //
+            // NOTE: We multiply the mTranslateVector by the cameraPitchNode's
+            // orientation quaternion and the cameraYawNode's orientation
+            // quaternion to translate the camera accoding to the camera's
+            // orientation around the Y-axis and the X-axis.
+            cameraNode.Translate(cameraYawNode.Orientation *
+                                        cameraPitchNode.Orientation *
+                                        transVect,
+                                        SceneNode.TransformSpace.TS_LOCAL);
+
+            // Angle of rotation around the X-axis.
+            pitchAngle = (2 * (Mogre.Math.ACos(cameraPitchNode.Orientation.w))).ValueDegrees;
+
+            // Just to determine the sign of the angle we pick up above, the
+            // value itself does not interest us.
+            pitchAngleSign = cameraPitchNode.Orientation.x;
+
+            // Limit the pitch between -90 degress and +90 degrees, Quake3-style.
+            if (pitchAngle > 90.0f)
+            {
+                if (pitchAngleSign > 0)
+                    // Set orientation to 90 degrees on X-axis.
+                    cameraPitchNode.SetOrientation(Mogre.Math.Sqrt(0.5f), Mogre.Math.Sqrt(0.5f), 0, 0);
+                else if (pitchAngleSign < 0)
+                    // Sets orientation to -90 degrees on X-axis.
+                    cameraPitchNode.SetOrientation(Mogre.Math.Sqrt(0.5f), -Mogre.Math.Sqrt(0.5f), 0, 0);
+            }
         }
 
         public void Init(String handle)
@@ -386,7 +576,9 @@ namespace LevelEditor.Classes
 
                 // Create a Simple Scene
                 //SceneNode node = null;
-                mMgr = mRoot.CreateSceneManager(SceneType.ST_GENERIC, "SceneManager");
+                // mMgr = mRoot.CreateSceneManager(SceneType.ST_GENERIC, "SceneManager");
+                mMgr = mRoot.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "SceneManager");
+
                 mMgr.AmbientLight = new ColourValue(0.8f, 0.8f, 0.8f);
 
                 mCamera = mMgr.CreateCamera("Camera");
@@ -401,8 +593,9 @@ namespace LevelEditor.Classes
                 //node = mMgr.RootSceneNode.CreateChildSceneNode(displayMesh + "node");
                 //node.AttachObject(ent);
 
-                mCamera.Position = new Vector3(0, 0, -400);
-                mCamera.LookAt(0, 0, 0);
+                mCamera.Position = new Vector3(0, 0, 0);
+                //mCamera.Position = new Vector3(0, 0, -400);
+                mCamera.LookAt(0, 0, 1);
 
                 //Create a single point light source
                 Light light2 = mMgr.CreateLight("MainLight");
@@ -414,6 +607,28 @@ namespace LevelEditor.Classes
                 mWindow.WindowMovedOrResized();
 
                 IsInitialized = true;
+
+
+
+                // Create the camera's top node (which will only handle position).
+                cameraNode = mMgr.RootSceneNode.CreateChildSceneNode();
+                cameraNode.Position = new Vector3(0, 0, 0);
+
+                //cameraNode = mMgr->getRootSceneNode()->createChildSceneNode();
+                //cameraNode->setPosition(0, 0, 500);
+
+                // Create the camera's yaw node as a child of camera's top node.
+                cameraYawNode = cameraNode.CreateChildSceneNode();
+
+                // Create the camera's pitch node as a child of camera's yaw node.
+                cameraPitchNode = cameraYawNode.CreateChildSceneNode();
+
+                // Create the camera's roll node as a child of camera's pitch node
+                // and attach the camera to it.
+                cameraRollNode = cameraPitchNode.CreateChildSceneNode();
+                cameraRollNode.AttachObject(mCamera);
+
+                mRaySceneQuery = mMgr.CreateRayQuery(new Ray());
             }
             catch (Exception ex)
             {

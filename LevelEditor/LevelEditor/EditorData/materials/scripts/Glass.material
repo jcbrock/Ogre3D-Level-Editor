@@ -1,0 +1,51 @@
+fragment_program Ogre/Compositor/GlassFP cg
+{
+	source GlassFP.cg
+	entry_point main_ps
+	profiles ps_2_0
+	//profiles ps_3_0 arbfp1
+}
+
+material Ogre/Compositor/GlassPass
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+
+			fragment_program_ref Ogre/Compositor/GlassFP cg
+			{
+ 			}
+			
+			//this extra stuff messes it up!!!! - it was able to work otherwise
+			//(GlassFP.cg compiled correctly, textures were present in "textures" folder,
+			//cg file was present in "programs" folder
+			//vertex_program_ref Ogre/Compositor/StdQuad_Cg_vp
+			//{
+			//}
+ 			
+ 			texture_unit RT
+			{
+				texture Water02.jpg 2d
+               tex_coord_set 0
+				tex_address_mode clamp
+				filtering linear linear linear
+			}
+
+ 			texture_unit NormalMap
+			{
+				texture WaterNormal1.tga 2d
+                //texture Panels_Diffuse.png 2d
+				tex_coord_set 1
+				
+                tex_address_mode clamp
+				filtering linear linear linear
+			}
+			
+			
+
+			
+		}
+	}
+}
